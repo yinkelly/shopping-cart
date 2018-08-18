@@ -4,11 +4,11 @@
     <v-layout
       row
       wrap>
-      <v-flex xs4 v-for="product in products" >
+      <v-flex xs6 v-for="product in products" >
         <product-card
           :item="product"
-          :action="addToCart"
-          actionLabel="Add to cart" />
+          :action="removeFromCart"
+          actionLabel="Remove" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -20,12 +20,12 @@ import ProductCard from '../components/ProductCard'
 export default {
   computed: {
     products () {
-      return this.$store.getters.allProducts
+      return this.$store.getters.cartProducts
     }
   },
   methods: {
-    addToCart (item) {
-      this.$store.dispatch('addToCart', item)
+    removeFromCart (item) {
+      this.$store.dispatch('removeFromCart', item)
     }
   },
   components: { ProductCard }

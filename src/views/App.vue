@@ -10,6 +10,12 @@
         class="ml-2 pl-3">
         <span class="hidden-xs-only">D&D</span>
       </v-toolbar-title>
+      <v-spacer />
+      <v-btn
+        icon
+        to="/cart">
+        <v-icon>shopping_cart</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-content>
       <router-view />

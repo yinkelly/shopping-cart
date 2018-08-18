@@ -9,7 +9,7 @@
       </div>
     </v-card-title>
     <v-card-actions>
-      <v-btn flat>Add to cart</v-btn>
+      <v-btn flat @click="action(item)">{{actionLabel}}</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -17,7 +17,9 @@
 <script>
 export default {
   props: {
-    item: Object
+    item: Object,
+    actionLabel: String,
+    action: Function
   }
 }
 </script>
