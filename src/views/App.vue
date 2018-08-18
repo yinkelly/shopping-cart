@@ -21,6 +21,9 @@
 
 export default {
   props: {},
+  created () {
+    this.$store.dispatch('fetchProducts')
+  },
 }
 </script>
 
