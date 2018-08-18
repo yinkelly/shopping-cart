@@ -12,14 +12,6 @@ new Vue({
   store,
   router,
   render (createElement) {
-    return createElement(App, {
-      props: {
-        views: [
-          // 'disinformation',
-          // 'actors',
-          // 'tweets'
-        ]
-      }
-    })
+    return createElement(App)
   }
 })
