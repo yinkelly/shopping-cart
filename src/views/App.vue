@@ -12,6 +12,13 @@
       </v-toolbar-title>
       <v-spacer />
       <v-btn
+        small
+        flat
+        to="/products">
+        Products
+      </v-btn>
+      <v-spacer />
+      <v-btn
         icon
         to="/cart">
         <v-icon>shopping_cart</v-icon>
