@@ -1,0 +1,33 @@
+{
+  "name": "clothing-retailer",
+  "version": "1.0.0",
+  "description": "A clothing retailer website",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./src/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "retailer",
+    "vuejs"
+  ],
+  "author": "Yin Kelly",
+  "license": "ISC",
+  "dependencies": {
+    "numeral": "^2.0.6",
+    "vee-validate": "^2.1.0-beta.8",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuetify": "^1.1.13",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "eslint": "^5.3.0",
+    "eslint-plugin-vue": "^4.7.1",
+    "parcel-bundler": "^1.9.7",
+    "parcel-plugin-eslint": "^1.0.4",
+    "parcel-plugin-vue": "^1.5.0"
+  }
+}
