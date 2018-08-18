@@ -18,9 +18,20 @@
       </v-flex>
       <v-flex xs3>
         <div>
-          <label>Subtotal</label>
-          {{subtotal}}
+          <div>
+            <label>Subtotal</label>
+            {{subtotal}}
+          </div>
+          <div v-for="discount in discounts">
+            {{discount.code}}: -{{discount.amount}}
+          </div>
+          <div>
+            <label>Total</label>
+            {{total}}
+          </div>
         </div>
+        <input type="text" v-model="voucherCode" />
+        <input type="button" value="Apply voucher" @click="submitVoucher()" />
       </v-flex>
     </v-layout>
 
@@ -37,11 +48,20 @@ export default {
     },
     subtotal () {
       return this.$store.getters.subtotal
+    },
+    total () {
+      return this.$store.getters.total
+    },
+    discounts () {
+      return this.$store.getters.appliedVouchers
     }
   },
   methods: {
     removeFromCart (item) {
       this.$store.dispatch('removeFromCart', item)
+    },
+    submitVoucher () {
+      this.$store.dispatch('submitVoucher', this.voucherCode)
     }
   },
   components: { ProductCard }

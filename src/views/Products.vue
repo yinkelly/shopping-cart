@@ -4,6 +4,13 @@
     <v-layout
       row
       wrap>
+      <v-flex xs12 >
+        <ul>
+          <li v-for="voucher in vouchers">
+            {{ voucher.message }}
+          </li>
+        </ul>
+      </v-flex>
       <v-flex xs4 v-for="product in products" >
         <product-card
           :item="product"
@@ -21,6 +28,9 @@ export default {
   computed: {
     products () {
       return this.$store.getters.allProducts
+    },
+    vouchers () {
+      return this.$store.getters.allVouchers
     }
   },
   methods: {

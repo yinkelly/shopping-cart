@@ -6,7 +6,28 @@ Vue.use(Vuex)
 
 const state = {
   allProducts: [],
-  cartProducts: []
+  cartProducts: [],
+  allVouchers: [{
+    amount: 5,
+    code: 'FIVER',
+    message: 'Use voucher code FIVER to get £5 off',
+    minSpend: 0,
+    includesOneOf: []
+  },{
+    amount: 10,
+    code: 'FUN',
+    message: 'Use voucher code FUN to get £10 off when you spend over 50',
+    minSpend: 50,
+    includesOneOf: []
+  },{
+    amount: 15,
+    code: 'COOL',
+    message: 'Use voucher code COOL to get £15 off when you spend over 75 and have bought at least one footwear item',
+    minSpend: 75,
+    includesOneOf: ["Women's Footwear", "Men's Footwear"]
+  }],
+  appliedVouchers: [],
+  showVoucherAlert: false
 }
 
 const getters = {
@@ -18,6 +39,16 @@ const getters = {
   },
   subtotal: (state) => {
     return state.cartProducts.reduce((sum, item) => sum + item.price, 0)
+  },
+  total: (state, getters) => {
+    const discount = state.appliedVouchers.reduce((sum, item) => sum + item.amount, 0)
+    return getters.subtotal - discount
+  },
+  allVouchers: (state) => {
+    return state.allVouchers
+  },
+  appliedVouchers: (state) => {
+    return state.appliedVouchers
   }
 }
 
@@ -42,6 +73,12 @@ const mutations = {
       })
     }
   },
+  updateVoucherAlert (state, bool) {
+    state.showVoucherAlert = bool
+  },
+  addVoucher (state, voucher) {
+    state.appliedVouchers.push(voucher)
+  }
 }
 
 const actions = {
@@ -62,6 +99,16 @@ const actions = {
     commit('removeFromCart', item)
     commit('updateProductQuantity', { name: item.name, amount: 1 })
   },
+  submitVoucher ({ commit, state }, code) {
+    const voucher = state.allVouchers.find(v => v.code === code)
+    if (voucher === undefined) {
+      commit('updateVoucherAlert', true)
+    } else {
+      // TODO: Check criteria!
+      commit('updateVoucherAlert', false)
+      commit('addVoucher', voucher)
+    }
+  }
 }
 
 export default new Vuex.Store({
