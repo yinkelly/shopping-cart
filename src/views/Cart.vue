@@ -23,7 +23,9 @@
             :subtotal="subtotal"
             :total="total"
             :discounts="discounts" />
-          <input type="text" v-model="voucherCode" />
+          <input
+            type="text"
+            v-model="voucherCode" />
           <v-btn
             small
             depressed
@@ -31,10 +33,14 @@
             @click="submitVoucher()">
             Apply voucher
           </v-btn>
+          <div
+            v-if="showAlert"
+            class="alert">
+            Voucher is not valid.
+          </div>
         </v-card>
       </v-flex>
     </v-layout>
-
   </v-container>
 </template>
 
@@ -55,6 +61,9 @@ export default {
     },
     discounts () {
       return this.$store.getters.appliedVouchers
+    },
+    showAlert () {
+      return this.$store.getters.showVoucherAlert
     }
   },
   methods: {

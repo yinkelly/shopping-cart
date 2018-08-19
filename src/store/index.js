@@ -11,20 +11,24 @@ const state = {
     amount: 5,
     code: 'FIVER',
     message: 'Use voucher code FIVER to get £5 off',
-    minSpend: 0,
-    includesOneOf: []
+    rules: {
+      minSpend: 0
+    }
   },{
     amount: 10,
     code: 'FUN',
     message: 'Use voucher code FUN to get £10 off when you spend over 50',
-    minSpend: 50,
-    includesOneOf: []
+    rules: {
+      minSpend: 50
+    }
   },{
     amount: 15,
     code: 'COOL',
     message: 'Use voucher code COOL to get £15 off when you spend over 75 and have bought at least one footwear item',
-    minSpend: 75,
-    includesOneOf: ["Women's Footwear", "Men's Footwear"]
+    rules: {
+      minSpend: 75,
+      includesOneOf: ["Women's Footwear", "Men's Footwear"]
+    }
   }],
   appliedVouchers: [],
   showVoucherAlert: false
@@ -49,6 +53,9 @@ const getters = {
   },
   appliedVouchers: (state) => {
     return state.appliedVouchers
+  },
+  showVoucherAlert: (state) => {
+    return state.showVoucherAlert
   }
 }
 
@@ -78,6 +85,10 @@ const mutations = {
   },
   addVoucher (state, voucher) {
     state.appliedVouchers.push(voucher)
+  },
+  removeVoucher (state, voucher) {
+    const index = state.appliedVouchers.findIndex(v => v.code === voucher.code)
+    state.appliedVouchers.splice(index, 1)
   }
 }
 
@@ -92,22 +103,57 @@ const actions = {
       })
   },
   addToCart ({ commit }, item) {
-    commit('addToCart', { ...item, quantity: 1})
+    commit('addToCart', { ...item, quantity: 1 })
     commit('updateProductQuantity', { name: item.name, amount: -1 })
   },
-  removeFromCart ({ commit }, item) {
+  removeFromCart ({ commit, dispatch }, item) {
     commit('removeFromCart', item)
     commit('updateProductQuantity', { name: item.name, amount: 1 })
+    dispatch('checkAppliedVouchers')
   },
   submitVoucher ({ commit, state }, code) {
+    const voucherApplied = state.appliedVouchers.findIndex(v => v.code === code) > -1
     const voucher = state.allVouchers.find(v => v.code === code)
-    if (voucher === undefined) {
+    if (voucher === undefined || voucherApplied) {
       commit('updateVoucherAlert', true)
     } else {
-      // TODO: Check criteria!
-      commit('updateVoucherAlert', false)
-      commit('addVoucher', voucher)
+      const voucherIsValid = voucherValidator(voucher.rules)(state.cartProducts)
+      if (voucherIsValid) {
+        commit('updateVoucherAlert', false)
+        commit('addVoucher', voucher)
+      } else {
+        commit('updateVoucherAlert', true)
+      }
     }
+  },
+  checkAppliedVouchers ({ commit, state }) {
+    state.appliedVouchers.forEach(voucher => {
+      if (!voucherValidator(voucher.rules)(state.cartProducts)) {
+        commit('removeVoucher', voucher)
+      }
+    })
+  }
+}
+
+function voucherValidator (rules) {
+  return (items) => {
+    return Object.entries(rules).reduce((isValid, [rule, value]) => {
+
+      let pass = false
+
+      if (rule === 'minSpend') {
+        pass = items.reduce((total, item) => total + item.price, 0) > value
+      }
+
+      if (rule === 'includesOneOf') {
+        pass = items.reduce((result, item) => {
+          return result || value.includes(item.category)
+        }, false)
+      }
+
+      return isValid && pass
+
+    }, true)
   }
 }
 
