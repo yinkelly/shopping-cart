@@ -44,13 +44,13 @@ const actions = {
         console.error(error);
       })
   },
-  submitVoucher ({ commit, state }, code) {
+  submitVoucher ({ commit, state, rootState }, code) {
     const voucherApplied = state.appliedVouchers.findIndex(v => v.code === code) > -1
     const voucher = state.allVouchers.find(v => v.code === code)
     if (voucher === undefined || voucherApplied) {
       commit('updateVoucherAlert', true)
     } else {
-      const voucherIsValid = voucherValidator(voucher.rules)(state.cartProducts)
+      const voucherIsValid = voucherValidator(voucher.rules)(rootState.cart.cartProducts)
       if (voucherIsValid) {
         commit('updateVoucherAlert', false)
         commit('addVoucher', voucher)
@@ -59,9 +59,9 @@ const actions = {
       }
     }
   },
-  checkAppliedVouchers ({ commit, state }) {
+  checkAppliedVouchers ({ commit, state, rootState }) {
     state.appliedVouchers.forEach(voucher => {
-      if (!voucherValidator(voucher.rules)(state.cartProducts)) {
+      if (!voucherValidator(voucher.rules)(rootState.cart.cartProducts)) {
         commit('removeVoucher', voucher)
       }
     })
