@@ -1,4 +1,5 @@
 import PRODUCTS from './products.json'
+import VOUCHERS from './vouchers.json'
 
 const products = {
   get () {
@@ -8,6 +9,15 @@ const products = {
   }
 }
 
+const vouchers = {
+  get () {
+    return new Promise((resolve) => {
+     resolve(VOUCHERS)
+    })
+  }
+}
+
 export default {
-  products
+  products,
+  vouchers
 }

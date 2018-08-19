@@ -7,29 +7,7 @@ Vue.use(Vuex)
 const state = {
   allProducts: [],
   cartProducts: [],
-  allVouchers: [{
-    amount: 5,
-    code: 'FIVER',
-    message: 'Use voucher code FIVER to get £5 off',
-    rules: {
-      minSpend: 0
-    }
-  },{
-    amount: 10,
-    code: 'FUN',
-    message: 'Use voucher code FUN to get £10 off when you spend over 50',
-    rules: {
-      minSpend: 50
-    }
-  },{
-    amount: 15,
-    code: 'COOL',
-    message: 'Use voucher code COOL to get £15 off when you spend over 75 and have bought at least one footwear item',
-    rules: {
-      minSpend: 75,
-      includesOneOf: ["Women's Footwear", "Men's Footwear"]
-    }
-  }],
+  allVouchers: [],
   appliedVouchers: [],
   showVoucherAlert: false
 }
@@ -62,6 +40,9 @@ const getters = {
 const mutations = {
   setProducts (state, data) {
     state.allProducts = data
+  },
+  setVouchers (state, data) {
+    state.allVouchers = data
   },
   addToCart (state, item) {
     state.cartProducts.push(item)
@@ -97,6 +78,15 @@ const actions = {
     api.products.get()
       .then((response) => {
         commit('setProducts', response)
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  },
+  fetchVouchers ({ commit }) {
+    api.vouchers.get()
+      .then((response) => {
+        commit('setVouchers', response)
       })
       .catch((error) => {
         console.error(error);

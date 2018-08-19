@@ -36,6 +36,7 @@ export default {
   props: {},
   created () {
     this.$store.dispatch('fetchProducts')
+    this.$store.dispatch('fetchVouchers')
   },
 }
 </script>
