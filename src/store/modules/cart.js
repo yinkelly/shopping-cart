@@ -13,6 +13,9 @@ const getters = {
     const discount = rootState.vouchers.appliedVouchers.reduce((sum, item) => sum + item.amount, 0)
     return getters.subtotal - discount
   },
+  cartCount: (state) => {
+    return state.cartProducts.length
+  }
 }
 
 const mutations = {

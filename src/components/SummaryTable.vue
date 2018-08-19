@@ -3,17 +3,17 @@
     <tbody>
       <tr>
         <td>Subtotal</td>
-        <td>{{subtotal}}</td>
+        <td>{{ formatCurrency(subtotal) }}</td>
       </tr>
       <tr v-for="discount in discounts">
         <td>{{discount.code}}</td>
-        <td>-{{discount.amount}}</td>
+        <td>-{{ formatCurrency(discount.amount) }}</td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <td>Total</td>
-        <td>{{total}}</td>
+        <td>{{ formatCurrency(total) }}</td>
       </tr>
     </tfoot>
   </table>

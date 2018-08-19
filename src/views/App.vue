@@ -4,7 +4,6 @@
       dark
       app
       fixed
-      dense
       clipped-left>
       <v-toolbar-title
         class="ml-2 pl-3">
@@ -21,7 +20,14 @@
       <v-btn
         icon
         to="/cart">
-        <v-icon>shopping_cart</v-icon>
+        <v-badge left>
+          <span
+            v-if="cartCount"
+            slot="badge">
+            {{ cartCount }}
+          </span>
+          <v-icon>shopping_cart</v-icon>
+        </v-badge>
       </v-btn>
     </v-toolbar>
     <v-content>
@@ -38,6 +44,11 @@ export default {
     this.$store.dispatch('fetchProducts')
     this.$store.dispatch('fetchVouchers')
   },
+  computed: {
+    cartCount () {
+      return this.$store.getters.cartCount
+    }
+  }
 }
 </script>
 

@@ -1,16 +1,33 @@
 <template>
   <v-card>
     <v-card-title>
-      <div>
-        <h3 class="title">{{item.name}}</h3>
-        <div>{{item.category}}</div>
-        <div>£{{item.price}}</div>
-        <div v-if="isAvailable">{{item.quantity}}</div>
-        <div v-else> OUT OF STOCK</div>
-      </div>
+      <v-container grid-list-xs fill-height class="pa-1">
+      <v-layout row wrap>
+        <v-flex xs12>
+          <h3 class="title">{{item.name}}</h3>
+        </v-flex>
+        <v-flex xs12>
+          <div>{{item.category}}</div>
+        </v-flex>
+        <v-flex xs12 sm6>
+          {{ formatCurrency(item.price) }}
+        </v-flex>
+        <v-flex xs12 sm6 text-xs-right>
+          <div v-if="isAvailable">quantity: {{item.quantity}}</div>
+          <div v-else> OUT OF STOCK</div>
+        </v-flex>
+      </v-layout>
+    </v-container>
     </v-card-title>
     <v-card-actions>
-      <v-btn v-if="isAvailable" @click="action(item)">{{actionLabel}}</v-btn>
+      <v-btn
+        block
+        flat
+        color="primary"
+        @click="action(item)"
+        :disabled="!isAvailable">
+        {{actionLabel}}
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

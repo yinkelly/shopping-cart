@@ -7,6 +7,14 @@ import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 
+Vue.mixin({
+  methods: {
+    formatCurrency (val) {
+      return `£${Number.parseFloat(val).toFixed(2)}`
+    }
+  }
+})
+
 new Vue({
   el: '#app',
   store,

@@ -4,14 +4,17 @@
     <v-layout
       row
       wrap>
-      <v-flex xs12 >
-        <ul>
-          <li v-for="voucher in vouchers">
+      <v-flex xs12>
+        <v-alert
+          outline
+          color="primary"
+          :value="true">
+          <div class="subheading" v-for="voucher in vouchers">
             {{ voucher.message }}
-          </li>
-        </ul>
+          </div>
+        </v-alert>
       </v-flex>
-      <v-flex xs12 sm6 md4 v-for="product in products" >
+      <v-flex xs12 sm6 md4 d-flex v-for="product in products" >
         <product-card
           :item="product"
           :action="addToCart"
