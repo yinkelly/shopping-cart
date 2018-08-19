@@ -4,7 +4,7 @@
     <v-layout
       row
       wrap>
-      <v-flex xs9>
+      <v-flex xs12 md8 lg9>
         <v-layout
           row
           wrap>
@@ -16,22 +16,22 @@
           </v-flex>
         </v-layout>
       </v-flex>
-      <v-flex xs3>
-        <div>
-          <div>
-            <label>Subtotal</label>
-            {{subtotal}}
-          </div>
-          <div v-for="discount in discounts">
-            {{discount.code}}: -{{discount.amount}}
-          </div>
-          <div>
-            <label>Total</label>
-            {{total}}
-          </div>
-        </div>
-        <input type="text" v-model="voucherCode" />
-        <input type="button" value="Apply voucher" @click="submitVoucher()" />
+      <v-flex xs12 md4 lg3>
+        <v-card class="pa-4">
+          <h3 class="title">Order summary</h3>
+          <summary-table
+            :subtotal="subtotal"
+            :total="total"
+            :discounts="discounts" />
+          <input type="text" v-model="voucherCode" />
+          <v-btn
+            small
+            depressed
+            class="my-1 mx-0"
+            @click="submitVoucher()">
+            Apply voucher
+          </v-btn>
+        </v-card>
       </v-flex>
     </v-layout>
 
@@ -40,6 +40,7 @@
 
 <script>
 import ProductCard from '../components/ProductCard'
+import SummaryTable from '../components/SummaryTable'
 
 export default {
   computed: {
@@ -64,6 +65,16 @@ export default {
       this.$store.dispatch('submitVoucher', this.voucherCode)
     }
   },
-  components: { ProductCard }
+  components: {
+    ProductCard,
+    SummaryTable
+  }
 }
 </script>
+
+<style scoped>
+  input {
+    border-style: solid;
+    background-color: white;
+  }
+</style>

@@ -11,7 +11,7 @@
           </li>
         </ul>
       </v-flex>
-      <v-flex xs4 v-for="product in products" >
+      <v-flex xs12 sm6 md4 v-for="product in products" >
         <product-card
           :item="product"
           :action="addToCart"
